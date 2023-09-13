@@ -141,7 +141,7 @@ void NeuralNetwork::compute_gradients_and_cost(
 inline std::vector<double> NeuralNetwork::feed_forward(
         const std::vector<double>& input,
         const Matrix<double>& weights) {
-    return sigmoid(weights * input);
+    return lineal(weights * input);
 }
 
 Matrix<double> NeuralNetwork::weight_init(double maxWeight, unsigned int rows, unsigned int cols){
@@ -156,6 +156,7 @@ Matrix<double> NeuralNetwork::weight_init(double maxWeight, unsigned int rows, u
 
     return weights;
 }
+
 
 unsigned int NeuralNetwork::compute(const Example& e) {
     std::vector<double> first_layer(e.data, e.data + INPUT_SIZE);
@@ -178,10 +179,14 @@ unsigned int NeuralNetwork::compute(const Example& e) {
 }
 
 // TODO parallelize (now its really easy to valarray)
-std::vector<double> NeuralNetwork::sigmoid(const std::vector<double>& x) {
+std::vector<double> NeuralNetwork::lineal(const std::vector<double>& x) {
     std::vector<double> result(x.size());
     for (unsigned int i = 0; i < x.size(); i++)
-        result[i] = 1 / (1 + exp(-x[i]));
+    {
+        if (x[i] < 0) result[i] = 0;
+        else result[i] = x[i];
+    }
+        
     return result;
 }
 
