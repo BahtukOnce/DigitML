@@ -2,6 +2,7 @@
 #include <cstdlib>
 #include <random>
 
+
 // TODO valarray?
 std::vector<double> operator-(
         const std::vector<double>& lhs,
